@@ -1,0 +1,33 @@
+{
+    "name": "septiwatch",
+    "version": "0.0.7",
+    "manifest_version": 2,
+    "description": "Septicycle watch and checkpoint countdown.",
+    "icons": {
+        "16": "images/icon-16.png",
+        "128": "images/icon-128.png"
+    },
+    "default_locale": "en",
+    "background": {
+        "scripts": [
+            "scripts/chromereload.js"
+        ]
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "*://*.ingress.com/intel*"
+            ],
+            "js": [
+                "scripts/septiwatch.js"
+            ],
+            "css": [
+                "styles/main.css"
+            ],
+            "run_at": "document_end"
+        }
+    ],
+    "permissions": [
+        "declarativeContent"
+    ]
+}
