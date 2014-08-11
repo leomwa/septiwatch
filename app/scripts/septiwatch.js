@@ -52,12 +52,24 @@
         }
 
         function update() {
-            var clock = nextCheckpoint - new Date();
-            var hours = Math.floor((clock / (hourInMilliseconds)) % 24);
-            var minutes = Math.floor((clock / (1000 * 60)) % 60);
-            var seconds = Math.floor((clock / 1000) % 60);
-            var timeFormat = '0{h}h : {m}m : {s}s';
-            var display = timeFormat
+            var clock,
+                display,
+                hours,
+                minutes,
+                seconds,
+                timeFormat;
+
+            clock = nextCheckpoint - new Date();
+            if (!clock) { // attempting to check when the cycle is over
+                nextCheckpoint = getNextCheckpoint();
+            }
+
+            hours = Math.floor((clock / (hourInMilliseconds)) % 24);
+            minutes = Math.floor((clock / (1000 * 60)) % 60);
+            seconds = Math.floor((clock / 1000) % 60);
+            timeFormat = '0{h}h : {m}m : {s}s';
+
+            display = timeFormat
                 .replace('{h}', hours)
                 .replace('{m}', minutes > 9 ? minutes : '0' + minutes)
                 .replace('{s}', seconds > 9 ? seconds : '0' + seconds);
