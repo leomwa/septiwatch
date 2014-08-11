@@ -62,6 +62,7 @@
             clock = nextCheckpoint - new Date();
             if (!clock) { // attempting to check when the cycle is over
                 nextCheckpoint = getNextCheckpoint();
+                clock = nextCheckpoint - new Date();
             }
 
             hours = Math.floor((clock / (hourInMilliseconds)) % 24);
