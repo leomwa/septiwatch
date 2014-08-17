@@ -1,6 +1,6 @@
 {
     "name": "septiwatch",
-    "version": "0.0.9",
+    "version": "0.0.11",
     "manifest_version": 2,
     "description": "Septicycle watch and checkpoint countdown.",
     "icons": {
@@ -8,11 +8,6 @@
         "128": "images/icon-128.png"
     },
     "default_locale": "en",
-    "background": {
-        "scripts": [
-            "scripts/chromereload.js"
-        ]
-    },
     "content_scripts": [
         {
             "matches": [
@@ -26,8 +21,5 @@
             ],
             "run_at": "document_end"
         }
-    ],
-    "permissions": [
-        "declarativeContent"
     ]
 }

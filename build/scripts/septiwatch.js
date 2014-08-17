@@ -1,8 +1,9 @@
+(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 (function() {
     'use strict';
 
-    console.log('septiwatch.js :: start');
-
+    
+    var html = "<div class=\"septiwatch-container\"><div class=\"content\"><div class=\"close\"> <button title=\"Click to close. Refresh the page to restore.\">X</button></div><div>Next checkpoint in:</div><div class=\"countdown\">00h : 00m : 00s</div><div>Cycle ends: <span class=\"ends\">Thursday May 19, 2014 2:00:00 UTC</span></div></div></div>";
     var countdown,
         cycleEnd,
         cyclePeriod,
@@ -11,24 +12,7 @@
         hourInMilliseconds,
         interval,
         lastKnownSeptiStart,
-        template,
         watch;
-
-
-    template = [
-        '<div class="septiwatch-container">',
-        '   <div class="content">',
-        '       <div class="close">',
-        '           <button title="Click to close. Refresh the page to restore.">X</button>',
-        '       </div>',
-        '       <div>Next checkpoint in:</div>',
-        '       <div class="countdown">00h : 00m : 00s</div>',
-        '       <div>Cycle ends: ',
-        '           <span class="ends">Thursday May 19, 2014 2:00:00 UTC</span>',
-        '       </div>',
-        '   </div>',
-        '</div>'
-    ].join('');
 
     hourInMilliseconds = 60 * 60 * 1000;
     lastKnownSeptiStart = new Date('Thu Aug 07 2014 16:00:00 GMT+0200 (CEST)');
@@ -87,7 +71,7 @@
     }
 
 
-    document.body.insertAdjacentHTML('afterbegin', template);
+    document.body.insertAdjacentHTML('afterbegin', html);
     document.querySelector('.ends').innerHTML = cycleEnd;
 
     watch = document.querySelector('.countdown');
@@ -99,3 +83,5 @@
 
     countdown.start();
 })();
+
+},{}]},{},[1]);
