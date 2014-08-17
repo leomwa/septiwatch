@@ -4,8 +4,10 @@
     "manifest_version": 2,
     "description": "Septicycle watch and checkpoint countdown.",
     "icons": {
-        "16": "images/icon-16.png",
-        "128": "images/icon-128.png"
+        "16": "images/16by16.png",
+        "19": "images/19by19.png",
+        "38": "images/38by38.png",
+        "128": "images/128by128.png"
     },
     "default_locale": "en",
     "content_scripts": [
