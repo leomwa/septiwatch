@@ -2,8 +2,9 @@ node_modules
 temp
 .tmp
 dist
+build
 .sass-cache
-app/bower_components
+src/bower_components
 test/bower_components
 package
 app.pem

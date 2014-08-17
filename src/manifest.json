@@ -1,6 +1,6 @@
 {
     "name": "septiwatch",
-    "version": "0.0.11",
+    "version": "0.0.12",
     "manifest_version": 2,
     "description": "Septicycle watch and checkpoint countdown.",
     "icons": {
