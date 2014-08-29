@@ -3,14 +3,21 @@
 var gulp = require('gulp');
 var browserify = require('browserify');
 var source = require('vinyl-source-stream');
+var argv = require('yargs').argv;
+var semver = require('semver');
+var fs = require('fs');
 var $ = require('gulp-load-plugins')();
+
+var getPackageJson = function() {
+    return JSON.parse(fs.readFileSync('./package.json', 'utf8'));
+};
 
 //clean build directory
 gulp.task('clean', function() {
     return gulp.src(['build/*', 'build/.git/*'], {
             read: false
         })
-        .pipe($.clean());
+        .pipe($.rimraf());
 });
 
 //copy static folders to build directory
@@ -64,9 +71,29 @@ gulp.task('images', function() {
         .pipe($.size());
 });
 
+gulp.task('bump', function() {
+    var ver = getPackageJson().version,
+        type = argv.type || 'patch',
+        newVer = argv.exact || semver.inc(ver, type),
+        otherJsonFilter = $.filter(['*', '!manifest.json']),
+        manifestFilter = $.filter(['manifest.json']);
+
+    return gulp.src(['./package.json', './bower.json', './src/manifest.json'])
+        .pipe(
+            $.bump({
+                version: newVer
+            })
+        )
+        .pipe(manifestFilter)
+        .pipe(gulp.dest('src'))
+        .pipe(manifestFilter.restore())
+        .pipe(otherJsonFilter)
+        .pipe(gulp.dest('./'));
+});
+
 //build ditributable and sourcemaps after other tasks completed
-gulp.task('zip', ['scripts', 'styles', 'images', 'copy'], function() {
-    var manifest = require('./src/manifest'),
+gulp.task('zip', ['scripts', 'styles', 'images', 'bump', 'copy'], function() {
+    var manifest = require('./build/manifest'),
         distFileName = manifest.name + ' v' + manifest.version + '.zip',
         mapFileName = manifest.name + ' v' + manifest.version + '-maps.zip';
     //collect all source maps
@@ -74,7 +101,7 @@ gulp.task('zip', ['scripts', 'styles', 'images', 'copy'], function() {
         .pipe($.zip(mapFileName))
         .pipe(gulp.dest('dist'));
     //build distributable extension
-    return gulp.src(['build/**', '!build/scripts/**/*.map'])
+    return gulp.src(['build/**', '!build/scripts/**/*.map', '!build/templates/'])
         .pipe($.zip(distFileName))
         .pipe(gulp.dest('dist'));
 });
@@ -82,4 +109,4 @@ gulp.task('zip', ['scripts', 'styles', 'images', 'copy'], function() {
 //run all tasks after build directory has been cleaned
 gulp.task('dist', ['clean', 'zip']);
 
-gulp.task('build', ['clean', 'scripts', 'styles', 'images', 'copy']);
+gulp.task('build', ['scripts', 'styles', 'images', 'copy']);
